@@ -1,0 +1,18 @@
+version: '3'
+services:
+  # spins up react app on port 3000
+  react-app:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/usr/src/app
+      -  /usr/src/app/node_modules
+
+  # spins up a local blockchain on port 8545
+  ganache:
+    image: trufflesuite/ganache
+    ports:
+      - "8545:8545"

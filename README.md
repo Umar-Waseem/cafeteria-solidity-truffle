@@ -4,36 +4,46 @@
 This project is a _*decentralized*_ cafeteria system that allows users to order food from a cafeteria and pay for it using a cryptocurrency. The system is built using the Ethereum blockchain and the Solidity programming language. The system is deployed on the local ganache test network.
 
 ### Requirements
-- [Node.js](https://nodejs.org/en/)
+- [Docker](https://docs.docker.com/get-docker/)
+- [NodeJS](https://nodejs.org/en/download/)
 - [Ganache](https://www.trufflesuite.com/ganache)
-- [Metamask](https://metamask.io/)
 - [Truffle](https://www.trufflesuite.com/truffle)
-### Prerequisites
-- Install Node.js
-- Install Ganache
-- Install Metamask
-- Install Truffle
-### Installation
-- Clone the repository
-- Open the terminal and navigate to the project directory
-- Run the following command to install the dependencies
-```bash
-npm install
-```
-- Run the following command to compile the smart contracts
-```bash
-truffle compile
-```
-- Run the following command to migrate the smart contracts to the ganache test network
-```bash
-truffle migrate
-```
-- Run the following command to start the development server
-```bash
-npm run dev
-```
-- Open the browser and navigate to http://localhost:3000/
-- Connect Metamask to the ganache test network
-- Import the accounts from ganache to Metamask
-- Refresh the page
-- You can now use the system
+
+### Start On Docker
+1. Clone the repository
+
+2. Run `docker-compose up` in the root directory of the project
+3. Open `localhost:3000` in your browser to access the frontend
+4. Ganache is running on `localhost:8545`
+5. Use truffle to deploy the smart contracts to ganache
+    - `truffle compile`
+    - `truffle migrate`
+
+### Start Without Docker
+1. Clone the repository
+
+2. Run `npm start` in the frontend directory to start the frontend
+3. Open `localhost:3000` in your browser to access the frontend
+4. Open ganache software and start the local test network on port `8545`
+5. Use truffle to deploy the smart contracts to ganache
+    - `truffle compile`
+    - `truffle migrate`
+
+### Use truffle console to interact with the deployed contract
+- Go to truffle console
+
+    - `truffle console`
+- Get the deployed contract instance
+    - `let instance = await SimpleContract.deployed()`
+- Call the contract functions
+    - `instance.get()`
+    - `instance.set(5)`
+### Check account balances in ether
+- Get all accounts
+
+    - `let accounts = await web3.eth.getAccounts()`
+- Get balance of an account
+    - `let balance = await web3.eth.getBalance(accounts[0])`
+- Convert balance to ether
+    - `web3.utils.fromWei(balance, 'ether')`
+
