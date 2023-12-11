@@ -9,7 +9,7 @@ This project is a _*decentralized*_ cafeteria system that allows users to order 
 - [Ganache](https://www.trufflesuite.com/ganache)
 - [Truffle](https://www.trufflesuite.com/truffle)
 
-### Start On Docker
+### Start On Docker (Wont have to install stuff manually)
 1. Clone the repository
 
 2. Run `docker-compose up` in the root directory of the project
@@ -19,7 +19,7 @@ This project is a _*decentralized*_ cafeteria system that allows users to order 
     - `truffle compile`
     - `truffle migrate`
 
-### Start Without Docker
+### Start Without Docker (Have to install stuff manually)
 1. Clone the repository
 
 2. Run `npm start` in the frontend directory to start the frontend
