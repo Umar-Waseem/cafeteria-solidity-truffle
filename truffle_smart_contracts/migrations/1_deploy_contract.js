@@ -1,5 +1,5 @@
-const SimpleContract = artifacts.require("SimpleContract");
+const MenuManagement = artifacts.require("MenuManagement");
 
 module.exports = function (deployer) {
-  deployer.deploy(SimpleContract);
+  deployer.deploy(MenuManagement);
 };
