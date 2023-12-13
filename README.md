@@ -1,7 +1,7 @@
 # Decentralized Cafeteria System
 
 ## Description
-This project is a _*decentralized*_ cafeteria system that allows users to order food from a cafeteria and pay for it using a cryptocurrency. The system is built using the Ethereum blockchain and the Solidity programming language. The system is deployed on the local ganache test network.
+This project is a _*decentralized*_ cafeteria system that allows users to order food from a cafeteria and pay for it using a custom made token called FastCoin.  The contracts are deployed on the local ganache test network.
 
 ## Requirements
 - [Docker](https://docs.docker.com/get-docker/)
