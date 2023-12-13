@@ -34,16 +34,19 @@ contract MenuManagement{
     // }
 
     // allows only the owner (cafeteria staff) to add menu items
-    modifier onlyOwner() {
-        require(msg.sender == owner, "Only the owner (cafeteria staff) can add menu items");
-        _;
-    }
+    // modifier onlyOwner() {
+    //     require(
+    //         msg.sender == owner, 
+    //         "Only the owner (cafeteria staff) can add menu items"
+    //         );
+    //     _;
+    // }
 
-    function addMenuItem(string memory _itemName, uint256 _itemQuantity, uint256 _itemPrice) onlyOwner public {
+    function addMenuItem(string memory _itemName, uint256 _itemQuantity, uint256 _itemPrice) public {
         menuItems.push(MenuItem(_itemName, _itemQuantity, _itemPrice * 1 ether));
     }
 
-    function updateMenuItemPrice(uint256 _index, uint256 _itemPrice) onlyOwner public {
+    function updateMenuItemPrice(uint256 _index, uint256 _itemPrice) public {
         require(_index < menuItems.length, "Invalid index");
         // multiply by 1 ether to convert to wei
         menuItems[_index].price = _itemPrice * 1 ether;
@@ -55,7 +58,7 @@ contract MenuManagement{
         return menuItems[_index].price / 1 ether;
     }
 
-    function updateMenuItemQuantity(uint256 _index, uint256 _itemQuantity) onlyOwner public {
+    function updateMenuItemQuantity(uint256 _index, uint256 _itemQuantity) public {
         require(_index < menuItems.length, "Invalid index");
         menuItems[_index].quantity = _itemQuantity;
     }

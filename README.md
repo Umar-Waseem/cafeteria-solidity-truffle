@@ -12,12 +12,21 @@ This project is a _*decentralized*_ cafeteria system that allows users to order 
 ### Start On Docker (Wont have to install stuff manually)
 1. Clone the repository
 
-2. Run `docker-compose up` in the root directory of the project
+2. Spin up the docker containers
+    ```
+    docker-compose up
+    ```
 3. Open `localhost:3000` in your browser to access the frontend
 4. Ganache is running on `localhost:8545`
 5. Use truffle to deploy the smart contracts to ganache
-    - `truffle compile`
-    - `truffle migrate`
+    - Compile the contracts
+        ```
+        truffle compile
+        ```
+    - Deploy the contracts
+        ```
+        truffle migrate
+        ```
 
 ### Start Without Docker (Have to install stuff manually)
 1. Clone the repository
@@ -26,24 +35,47 @@ This project is a _*decentralized*_ cafeteria system that allows users to order 
 3. Open `localhost:3000` in your browser to access the frontend
 4. Open ganache software and start the local test network on port `8545`
 5. Use truffle to deploy the smart contracts to ganache
-    - `truffle compile`
-    - `truffle migrate`
+    - Compile the contracts
+        ```
+        truffle compile
+        ```
+    - Deploy the contracts
+        ```
+        truffle migrate
+        ```
 
 ### Use truffle console to interact with the deployed contract
 - Go to truffle console
-
-    - `truffle console`
+    ```
+    truffle console
+    ```
 - Get the deployed contract instance
-    - `let instance = await SimpleContract.deployed()`
+    ```
+    let instance = await SimpleContract.deployed()
+    ```
 - Call the contract functions
-    - `instance.get()`
-    - `instance.set(5)`
-### Check account balances in ether
-- Get all accounts
+    - Call get function
+        ```
+        instance.get()
+        ```
+    - Call set function
+        ```
+        instance.set(5)
+        ```
 
-    - `let accounts = await web3.eth.getAccounts()`
-- Get balance of an account
-    - `let balance = await web3.eth.getBalance(accounts[0])`
-- Convert balance to ether
-    - `web3.utils.fromWei(balance, 'ether')`
+### Use javascript to interact with the deployed contract
+
+- Run following in root
+    ```
+    cd truffle_smart_contracts
+    ```
+- Run
+    ```
+    npm install
+    ```
+- The run the script
+    ```
+    node execute.js
+    ```
+
 
