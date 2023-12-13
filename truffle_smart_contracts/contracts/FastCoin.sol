@@ -22,7 +22,7 @@ interface ERC20 {
     event Approval(address owner, address spender, uint256 value);
 }
 
-// make a token called FastCoin
+// This is a custom utility token for the cafeteria system
 
 contract FastCoin is ERC20 {
     string public name = "FastCoin";
