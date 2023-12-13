@@ -1,81 +1,82 @@
 # Decentralized Cafeteria System
 
 ## Description
-This project is a _*decentralized*_ cafeteria system that allows users to order food from a cafeteria and pay for it using a cryptocurrency. The system is built using the Ethereum blockchain and the Solidity programming language. The system is deployed on the local ganache test network.
+This project is a _*decentralized*_ cafeteria system that allows users to order food from a cafeteria and pay for it using a custom made token called FastCoin.  The contracts are deployed on the local ganache test network.
 
-### Requirements
+## Requirements
 - [Docker](https://docs.docker.com/get-docker/)
 - [NodeJS](https://nodejs.org/en/download/)
 - [Ganache](https://www.trufflesuite.com/ganache)
 - [Truffle](https://www.trufflesuite.com/truffle)
 
-### Start On Docker (Wont have to install stuff manually)
-1. Clone the repository
 
-2. Spin up the docker containers
-    ```
-    docker-compose up
-    ```
-3. Open `localhost:3000` in your browser to access the frontend
-4. Ganache is running on `localhost:8545`
-5. Use truffle to deploy the smart contracts to ganache
-    - Compile the contracts
-        ```
-        truffle compile
-        ```
-    - Deploy the contracts
-        ```
-        truffle migrate
-        ```
+## Ways to setup
 
-### Start Without Docker (Have to install stuff manually)
-1. Clone the repository
+1. ### Start On Docker (Wont have to install stuff manually)
+    1. Clone the repository
+    
+    2. Spin up the docker containers
+        ```
+        docker-compose up
+        ```
+    3. Open `localhost:3000` in your browser to access the frontend
+    4. Ganache is running on `localhost:8545`
+    5. Use truffle to deploy the smart contracts to ganache
+        - Compile the contracts
+            ```
+            truffle compile
+            ```
+        - Deploy the contracts
+            ```
+            truffle migrate
+            ```
 
-2. Run `npm start` in the frontend directory to start the frontend
-3. Open `localhost:3000` in your browser to access the frontend
-4. Open ganache software and start the local test network on port `8545`
-5. Use truffle to deploy the smart contracts to ganache
-    - Compile the contracts
-        ```
-        truffle compile
-        ```
-    - Deploy the contracts
-        ```
-        truffle migrate
-        ```
+2. ### Start Without Docker (Have to install stuff manually)
+    1. Clone the repository
+    
+    2. Run `npm start` in the frontend directory to start the frontend
+    3. Open `localhost:3000` in your browser to access the frontend
+    4. Open ganache software and start the local test network on port `8545`
+    5. Use truffle to deploy the smart contracts to ganache
+        - Compile the contracts
+            ```
+            truffle compile
+            ```
+        - Deploy the contracts
+            ```
+            truffle migrate
+            ```
 
-### Use truffle console to interact with the deployed contract
-- Go to truffle console
-    ```
-    truffle console
-    ```
-- Get the deployed contract instance
-    ```
-    let instance = await SimpleContract.deployed()
-    ```
-- Call the contract functions
-    - Call get function
+## Ways to interact and invoke the smart contracts
+
+1. ### Use truffle console to interact with the deployed contract
+    - Go to truffle console
         ```
-        instance.get()
+        truffle console
         ```
-    - Call set function
+    - Get the deployed contract instance
         ```
-        instance.set(5)
+        let instance = await MenuManagement.deployed()
         ```
 
-### Use javascript to interact with the deployed contract
+2. ### Use javascript to interact with the deployed contract
 
-- Run following in root
-    ```
-    cd truffle_smart_contracts
-    ```
-- Run
-    ```
-    npm install
-    ```
-- The run the script
-    ```
-    node execute.js
-    ```
+    - Run following in root
+        ```
+        cd truffle_smart_contracts
+        ```
+    - Run
+        ```
+        npm install
+        ```
+    - Then run the script
+        ```
+        node execute.js
+        ```
+3. ### Spin up the react app and use it
+    - Open following URL
+        ```
+        localhost:3000
+        ```
 
 
