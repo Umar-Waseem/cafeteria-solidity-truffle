@@ -9,40 +9,43 @@ This project is a _*decentralized*_ cafeteria system that allows users to order 
 - [Ganache](https://www.trufflesuite.com/ganache)
 - [Truffle](https://www.trufflesuite.com/truffle)
 
-## Start On Docker (Wont have to install stuff manually)
-1. Clone the repository
 
-2. Spin up the docker containers
-    ```
-    docker-compose up
-    ```
-3. Open `localhost:3000` in your browser to access the frontend
-4. Ganache is running on `localhost:8545`
-5. Use truffle to deploy the smart contracts to ganache
-    - Compile the contracts
-        ```
-        truffle compile
-        ```
-    - Deploy the contracts
-        ```
-        truffle migrate
-        ```
+## Ways to setup
 
-## Start Without Docker (Have to install stuff manually)
-1. Clone the repository
+1. ### Start On Docker (Wont have to install stuff manually)
+    1. Clone the repository
+    
+    2. Spin up the docker containers
+        ```
+        docker-compose up
+        ```
+    3. Open `localhost:3000` in your browser to access the frontend
+    4. Ganache is running on `localhost:8545`
+    5. Use truffle to deploy the smart contracts to ganache
+        - Compile the contracts
+            ```
+            truffle compile
+            ```
+        - Deploy the contracts
+            ```
+            truffle migrate
+            ```
 
-2. Run `npm start` in the frontend directory to start the frontend
-3. Open `localhost:3000` in your browser to access the frontend
-4. Open ganache software and start the local test network on port `8545`
-5. Use truffle to deploy the smart contracts to ganache
-    - Compile the contracts
-        ```
-        truffle compile
-        ```
-    - Deploy the contracts
-        ```
-        truffle migrate
-        ```
+2. ### Start Without Docker (Have to install stuff manually)
+    1. Clone the repository
+    
+    2. Run `npm start` in the frontend directory to start the frontend
+    3. Open `localhost:3000` in your browser to access the frontend
+    4. Open ganache software and start the local test network on port `8545`
+    5. Use truffle to deploy the smart contracts to ganache
+        - Compile the contracts
+            ```
+            truffle compile
+            ```
+        - Deploy the contracts
+            ```
+            truffle migrate
+            ```
 
 ## Ways to interact and invoke the smart contracts
 
