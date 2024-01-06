@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity >=0.8.2 < 0.9.0;
+pragma solidity >=0.4.22 <0.9.0;
 
 interface ERC20 {
     // total supply of the tokens
@@ -9,7 +9,10 @@ interface ERC20 {
     function balanceOf(address account) external view returns (uint256);
 
     function transfer(address recipient, uint256 amount) external returns (bool);
-
+    function allowance(address _owner, address _spender) external view returns (uint256);
+    function approve(address spender, uint256 value) external returns (bool);
+    function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);
+    
 }
 
 contract FastCoin is ERC20 {
@@ -68,6 +71,31 @@ contract FastCoin is ERC20 {
         require(balances[msg.sender] >= amount, "You dont have enough balance to transfer the amount");
         balances[msg.sender] -= amount;
         balances[recipient] += amount;
+        return true;
+    }
+
+    function approve(address spender,uint256 value) external returns (bool) {
+        require(balances[msg.sender] >= value, "You dont have enough balance to set the allowance amount");
+        allowances[msg.sender][spender] = value;
+        return true;    
+    }
+
+    // check the allowance and its availablity
+    function allowance(address _owner, address _spender) external view returns (uint256){
+        return allowances[_owner][_spender];
+    }
+
+    function transferFrom(address sender,address recipient,uint256 amount) external returns (bool) {
+        // sender should have enough balance to spend
+        require(balances[sender] >= amount, "The sender balance is less than the amount");
+        require(allowances[sender][msg.sender] >= amount, "The allowance for contract invoker is less than the amount");
+
+        // cut balance from sender and add to reciepent
+        balances[sender] -= amount;
+        balances[recipient] += amount;
+
+        allowances[sender][msg.sender] -= amount;
+
         return true;
     }
 
