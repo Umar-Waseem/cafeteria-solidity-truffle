@@ -1,23 +1,52 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../App.css";
-import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import UserNavbar from "./UserNavbar";
+import Web3 from "web3";
+import { menuContractAddress } from "../addresses"; // Make sure to import the correct contract address
+import menuContract from "../contractAbis/MenuManagement.json"
 
 function UserDashboard() {
     const [itemName, setItemName] = React.useState("");
     const [itemQuantity, setItemQuantity] = React.useState("");
     const [sendAmount, setSendAmount] = React.useState("");
-    let [totalAmount, setTotalAmount] = React.useState("");
+    const [totalAmount, setTotalAmount] = React.useState("");
+    const [items, setItems] = React.useState([]);
 
-    //set some predefined items in the menu in the items array along with their prices
-    const [items, setItems] = React.useState([
-        { name: "Pizza", price: 100 },
-        { name: "Burger", price: 200 },
-        { name: "Sandwich", price: 300 },
-        { name: "Biryani", price: 400 },
-    ]);
+    useEffect(() => {
+        // Fetch menu items from the smart contract
+        async function fetchMenuItems() {
+            try {
+                const web3 = new Web3("http://localhost:7545"); // Update with your Ethereum node URL
+                const menuContractABI = menuContract.abi; // Update with your menu contract ABI
+                const menuManagementContract = new web3.eth.Contract(
+                    menuContractABI,
+                    menuContractAddress
+                );
+
+                const itemsCount = await menuManagementContract.methods.getItemsCount().call();
+                const fetchedItems = [];
+
+                const names = await menuManagementContract.methods.getAllItemNames().call();
+                const prices = await menuManagementContract.methods.getAllItemPrices().call();
+                const quantities = await menuManagementContract.methods.getAllItemQuantities().call();
+
+                for (let i = 0; i < itemsCount; i++) {
+                    fetchedItems.push({
+                        name: names[i],
+                        price: parseInt(prices[i], 10),
+                        quantity: parseInt(quantities[i], 10),
+                    });
+                }
+
+                setItems(fetchedItems);
+                console.log("Fetched menu items:", fetchedItems);
+            } catch (error) {
+                console.error("Error fetching menu items:", error);
+            }
+        }
+
+        fetchMenuItems();
+    }, []);
 
     const handleSubmit = () => {
         alert("Item ordered successfully");
@@ -28,14 +57,13 @@ function UserDashboard() {
         items.forEach((item) => {
             if (item.name === itemName) {
                 total = item.price * itemQuantity;
-                totalAmount = setTotalAmount(total);
+                setTotalAmount(total);
             }
         });
     }
 
-
     function getAddress() {
-        let account = localStorage.getItem('account');
+        let account = localStorage.getItem("account");
         console.log("from local: ", account);
         return account;
     }
@@ -85,7 +113,7 @@ function UserDashboard() {
                             <option value="">Select Item From Menu</option>
                             {items.map((item, index) => (
                                 <option key={index} value={item.name}>
-                                    {item.name} - {item.price} FC
+                                    {item.name} - Price: {item.price} FC - Quantity: {item.quantity}
                                 </option>
                             ))}
                         </select>
@@ -115,8 +143,6 @@ function UserDashboard() {
                         />
                     </label>
 
-                    {/*calculate the total amount concurrently */}
-
                     <button
                         style={{
                             backgroundColor: "#007bff",
@@ -131,9 +157,7 @@ function UserDashboard() {
                         Calculate Total Amount
                     </button>
 
-                    <h3
-                        style={{ textAlign: "center", marginTop: "50px", color: "black" }}
-                    >
+                    <h3 style={{ textAlign: "center", marginTop: "50px", color: "black" }}>
                         Total Amount: {totalAmount} FC
                     </h3>
 

@@ -2,17 +2,50 @@ import React, { useState } from 'react';
 import '../App.css';
 import Navbar from './Navbar';
 
+import Web3 from "web3";
+import { menuContractAddress } from '../addresses';
+import menuContract from "../contractAbis/MenuManagement.json"
+
+
 function AdminAddDiscount() {
 
   const [itemName, setItemName] = useState('');
   const [itemDiscount, setItemDiscount] = useState('');
-  
 
-  const handleSubmit = () => { 
-    alert('Discount added successfully');
+
+  const handleSubmit = () => {
+    // alert('Discount added successfully');
+    addDiscount();
   }
 
+  async function addDiscount() {
+    try {
+      const web3 = new Web3('http://localhost:7545');
+      const menuContractABI = menuContract.abi;
 
+      const menuManagementContract = new web3.eth.Contract(
+        menuContractABI,
+        menuContractAddress
+      );
+
+      console.log("Item Name: ", itemName);
+      console.log("Item Discount: ", itemDiscount);
+
+      let fromAccount = localStorage.getItem('account');
+      let gas = 6000000;
+
+      console.log("from account: ", fromAccount);
+
+      const res = await menuManagementContract.methods.addDiscount(itemName, parseInt(itemDiscount, 10)).send({ from: fromAccount, gas: gas })
+      console.log("Transaction Hash: ", res.transactionHash);
+      alert("Discount added successfully");
+    } catch (error) {
+      console.log("Error", error);
+      alert(error);
+      console.log(error.stack);
+      alert(error.stack);
+    }
+  }
 
   return (
     <div>
@@ -40,7 +73,7 @@ function AdminAddDiscount() {
               required
             />
           </label>
-          
+
           <button
             style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 15px', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
             type="submit"
