@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import Login from './components/Login';
+import AdminDashboard from './components/AdminDashboard';
+import UserDashboard from './components/UserDashboard';
+import AdminAddItem from './components/AdminAddItem';
+import AdminAddDiscount from './components/AdminAddDiscount';
+import UserOrderItem from './components/UserOrderItem';
+import UserCheckBalance from './components/UserCheckBalance';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.jssss</code>
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn
-        </a>
-      </header>
-    </div>
-  );
-}
+import { BrowserRouter, Route, Routes} from 'react-router-dom';
 
-export default App;
+
+const App = () => {
+    return (
+      <BrowserRouter>
+        <Routes>
+          {/*<Route path="/login" element={<Login />} />*/}
+          <Route path="/" element={<Login />} />
+          <Route path="/admindashboard" element={<AdminDashboard />} />
+          <Route path="/userdashboard" element={<UserDashboard />} />
+          <Route path="/AdminAddItem" element={<AdminAddItem />} />
+          <Route path="/AdminAddDiscount" element={<AdminAddDiscount />} />
+          <Route path="/UserOrderItem" element={<UserOrderItem />} />
+          <Route path="/UserCheckBalance" element={<UserCheckBalance />} />
+          
+        </Routes>
+      </BrowserRouter>
+    );
+  };
+  
+  export default App;

@@ -1,48 +1,56 @@
 // SPDX-License-Identifier: MIT
 
-// Facilitates the order processing system, allowing users
-// to select items, specify quantities, and place orders. This contract calls functions from the
-// menu management contract to retrieve item details and calculates the total order amount.
-
-pragma solidity ^0.8.17;
+pragma solidity >=0.8.2 < 0.9.0;
 
 import "./MenuManagement.sol";
+import "./Promotions.sol";
+import "./RewardsLoyalty.sol";
 
 contract OrderContract{
     address public owner; 
-    MenuManagement public menuManagementInstance;
+    MenuManagement public mm;
+    Promotions public pr;
+    RewardsLoyalty public rl;
+    FastCoin public fc;
 
-    constructor(MenuManagement _menuManagementInstance) {
+    constructor(MenuManagement _mm, Promotions _pr, RewardsLoyalty _rl, FastCoin _fc) {
         owner = msg.sender;
-        menuManagementInstance = _menuManagementInstance;
+        mm = _mm;
+        pr = _pr;
+        rl = _rl;
+        fc = _fc;
     }
 
-    // to check how much u have to pay
     function calculateOrderAmount(uint256[] memory _itemIndexes, uint256[] memory _quantities) public view returns (uint256){
         require(_itemIndexes.length == _quantities.length, "Error: Item and quantity count mismatch");
-        // check for an invalid item index
+        
+        // check for an invalid item index and availability
         for (uint256 i = 0; i < _itemIndexes.length; i++) {
-            require(_itemIndexes[i] < menuManagementInstance.getItemsCount(), "Invalid item index");
+            require(_itemIndexes[i] < mm.getItemsCount(), "Invalid item index");
+            require(mm.checkAvailability(_itemIndexes[i]), "Item out of stock");
         }
+
         uint256 totalAmount = 0;
+
         for (uint256 i = 0; i < _itemIndexes.length; i++) {
-            uint256 itemIndex = _itemIndexes[i];
-            uint256 quantity = _quantities[i];
-            uint256 itemPrice = menuManagementInstance.getItemPrice(itemIndex);
-            totalAmount += itemPrice * quantity;
+            uint256 itemPrice = mm.getPrice(_itemIndexes[i]);
+            totalAmount += itemPrice * _quantities[i];
         }
-        return totalAmount * (10**18);
+        //returning discounted value
+        return  pr.applyDiscount(totalAmount);
     }
 
-    // to actually place an order if youre not broke
-    function placeOrder(uint256[] memory _itemIndexes, uint256[] memory _quantities) public payable {
-        // check for an invalid item index
-        for (uint256 i = 0; i < _itemIndexes.length; i++) {
-            require(_itemIndexes[i] < menuManagementInstance.getItemsCount(), "Error: Item and quantity count mismatch");
-        }
+
+    function placeOrder(uint256[] memory _itemIndexes, uint256[] memory _quantities, uint payment) public{
         uint256 totalAmount = calculateOrderAmount(_itemIndexes, _quantities);
-        require(msg.value == totalAmount, "You didnt pay enough");
-        payable(owner).transfer(totalAmount);
+        require(payment >= totalAmount, "You didnt pay enough");
+
+        for (uint256 i = 0; i < _itemIndexes.length; i++) {
+            mm.updateQuantity(_itemIndexes[i], mm.getItemQuantity(_itemIndexes[i]) - _quantities[i]);
+        }
+
+        rl.incTokens(msg.sender);
+        fc.transferToCafe(msg.sender, payment);
     }
 
 

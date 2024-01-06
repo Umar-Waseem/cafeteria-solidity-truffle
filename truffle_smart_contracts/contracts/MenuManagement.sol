@@ -1,13 +1,8 @@
 // SPDX-License-Identifier: MIT
 
-// Manages the cafeteria menu, including items, prices,
-// and availability. This contract provides functions for the cafeteria staff to add new menu items,
-// update prices, and check item availability.
-
-pragma solidity >=0.8.2 <0.9.0;
+pragma solidity >=0.8.2 < 0.9.0;
 
 contract MenuManagement{
-
     // state variables (stored directly on the blockchain)
     address public owner;
 
@@ -29,47 +24,40 @@ contract MenuManagement{
         return menuItems.length;
     }
 
-    // function getAllMenuItems() public view returns (MenuItem[] memory) {
-    //     return menuItems;
-    // }
-
-    // allows only the owner (cafeteria staff) to add menu items
-    // modifier onlyOwner() {
-    //     require(
-    //         msg.sender == owner, 
-    //         "Only the owner (cafeteria staff) can add menu items"
-    //         );
-    //     _;
-    // }
-
-    function addMenuItem(string memory _itemName, uint256 _itemQuantity, uint256 _itemPrice) public {
-        menuItems.push(MenuItem(_itemName, _itemQuantity, _itemPrice * 1 ether));
+    modifier onlyOwner{
+        require(msg.sender == owner);
+        _;
     }
 
-    function updateMenuItemPrice(uint256 _index, uint256 _itemPrice) public {
+    modifier indexCheck(uint256 _index){
         require(_index < menuItems.length, "Invalid index");
+        _;
+
+    }
+
+    function addItem(string memory _itemName, uint256 _itemQuantity, uint256 _itemPrice) public onlyOwner{
+        menuItems.push(MenuItem(_itemName, _itemQuantity, _itemPrice));
+    }
+
+    function updatePrice(uint256 _index, uint256 _itemPrice) public onlyOwner indexCheck(_index){
         // multiply by 1 ether to convert to wei
-        menuItems[_index].price = _itemPrice * 1 ether;
+        menuItems[_index].price = _itemPrice;
     }
 
-    function getItemPrice(uint256 _index) public view returns (uint256) {
-        require(_index < menuItems.length, "Invalid index");
+    function getPrice(uint256 _index) public view indexCheck(_index) returns (uint256){
         // divide by 1 ether to convert to ether
-        return menuItems[_index].price / 1 ether;
+        return menuItems[_index].price;
     }
 
-    function updateMenuItemQuantity(uint256 _index, uint256 _itemQuantity) public {
-        require(_index < menuItems.length, "Invalid index");
+    function updateQuantity(uint256 _index, uint256 _itemQuantity) public indexCheck(_index){
         menuItems[_index].quantity = _itemQuantity;
     }
 
-    function getItemQuantity(uint256 _index) public view returns (uint256) {
-        require(_index < menuItems.length, "Invalid index");
+    function getItemQuantity(uint256 _index) public view indexCheck(_index) returns (uint256) {
         return menuItems[_index].quantity;
     }
 
-    function checkAvailability(uint256 _index) public view returns (bool) {
-        require(_index < menuItems.length, "Invalid index");
+    function checkAvailability(uint256 _index) public view indexCheck(_index) returns (bool) {
         // available if quantity is more than 0
         return (menuItems[_index].quantity > 0);
     }
