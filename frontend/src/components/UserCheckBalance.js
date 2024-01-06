@@ -60,15 +60,15 @@ function UserCheckBalance() {
             const txReceipt = await fcTokenManagementContract.methods.getTokens(
                 web3.utils.toWei(ethToConvert.toString(), 'ether') // Convert the entered ETH to Wei
             ).send({ from: fromAccount, gas: gas });
-            
+
             // Log transaction hash and alert
             console.log("Transaction Hash: ", txReceipt.transactionHash);
             alert("ETH converted to FC successfully");
-    
+
             // Fetch and display updated FC token balance
             const updatedFCBalance = await fcTokenManagementContract.methods.balanceOf(fromAccount).call();
             setFCtokenBalance(updatedFCBalance);
-    
+
         } catch (error) {
             // Handle errors
             console.error("Error converting ETH to FC:", error);
@@ -76,7 +76,7 @@ function UserCheckBalance() {
         }
     }
 
-    
+
 
     return (
         <div className="App">
@@ -91,7 +91,7 @@ function UserCheckBalance() {
                 <h1>Balance: {balance} ETH</h1> <br />
 
                 <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>
-                    Enter ETH to convert to FastCoin: <br/>
+                    Enter ETH to convert to FastCoin: <br />
                     <input
                         style={{ width: '10%', padding: '8px', marginBottom: '16px', boxSizing: 'border-box', border: '1px solid #ccc', borderRadius: '4px' }}
                         type="text"
