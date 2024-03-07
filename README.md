@@ -9,6 +9,12 @@ This project is a _*decentralized*_ cafeteria system that allows users to order 
 - [Ganache](https://www.trufflesuite.com/ganache)
 - [Truffle](https://www.trufflesuite.com/truffle)
 
+## Contrbutors
+
+- [Muhammad Umar Waseem](https://github.com/Umar-Waseem)
+- [Muhammad Huzaifa](https://github.com/huzziaf)
+- [Umar Qazi](https://github.com/umarqazii)
+- [Abdul Wahab](https://github.com/AWahab02)
 
 ## Ways to setup
 
